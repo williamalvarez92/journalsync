@@ -2,6 +2,8 @@ import os
 import shutil
 import filecmp
 import sys
+from config import origin_folder, destination_folder
+
 
 def sync_folders(origin_folder, destination_folder):
     # Get the list of files in the origin folder
@@ -12,7 +14,7 @@ def sync_folders(origin_folder, destination_folder):
 
     # Synchronize only PDF files from origin to destination
     for file in origin_files:
-        if file.lower().endswith(".pdf"):
+        if file.lower().endswith(".pdf") or file.lower().endswith(".txt") or file.lower().endswith(".ink"):
             origin_file_path = os.path.join(origin_folder, file)
             destination_file_path = os.path.join(destination_folder, file)
 
@@ -30,22 +32,11 @@ def sync_folders(origin_folder, destination_folder):
 
     # Remove PDF files from destination if they don't exist in origin
     for file in destination_files - origin_files:
-        if file.lower().endswith(".pdf"):
+        if file.lower().endswith(".pdf") or file.lower().endswith(".txt") or file.lower().endswith(".ink"):
             file_path = os.path.join(destination_folder, file)
             os.remove(file_path)
             print(f"Deleted: {file}")
 
 
-if __name__ == "__main__":
-    # origin_folder=""
-    # destination_folder=""
-    if sys.platform.startswith('darwin'):  # macOS
-        origin_folder = "/Users/william.alvarez/Development/Personal/origin"
-        destination_folder = "/Users/william.alvarez/Development/Personal/dest"
-    elif sys.platform.startswith('win'):  # Windows
-            origin_folder = "/Users/william.alvarez/Development/Personal/origin"
-            destination_folder = "/Users/william.alvarez/Development/Personal/dest"
-    else:
-        my_variable = "Unknown platform"
    
-    sync_folders(origin_folder, destination_folder)
+sync_folders(origin_folder, destination_folder)
